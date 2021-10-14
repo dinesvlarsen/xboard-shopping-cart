@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue&display=swap');
+
+body {
+	font-family: 'Epilogue', sans-serif;
+}
+
+header {
+	background-color: #fafafa;
+	padding: 1rem;
+}
+
+.header-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 1440px;
+	margin: 0 auto;
+}
+
+.header-container nav ul {
+	display: flex;
+	align-items: center;
+}
+
+nav ul li + li {
+	margin-left: 4rem;
+}
+
+nav ul {
+	position: relative;
+}
+
+.shopping-cart:hover {
+	cursor: pointer;
+}
+
+.shopping-cart-items-count {
+	position: absolute;
+	right: -8px;
+	bottom: 21px;
+	background-color: #c7c7c7;
+	padding: 0.34em;
+	border-radius: 50%;
+	width: 22px;
+	height: 22px;
+	font-size: 0.8rem;
+	text-align: center;
+}
+
+.hide {
+	display: none;
+}
+
+/* MAIN */
+main {
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 1440px;
+	margin: 4rem auto;
+	gap: 16px;
+}
+
+/* Product Items */
+.product-list-item figure img {
+	border-radius: 2px;
+}
+
+.product-list-item h2 {
+	font-size: 1.2rem;
+	margin: 0.5em 0;
+}
+
+.price-tag span {
+	color: var(--secondary-color);
+}
+
+/* Product Controls */
+.product-controls-container {
+	display: flex;
+	gap: 1.2rem;
+	justify-content: flex-end;
+}
+
+.product-controls-container button {
+	background-color: transparent;
+	border: none;
+	text-decoration: underline;
+	color: black;
+}
+
+.product-controls-container button:hover {
+	text-decoration: none;
+}
+
+/* Quantity Control */
+
+.product-quantity-controls {
+	display: flex;
+	overflow: hidden;
+	border-radius: 2px;
+	font-size: 1rem;
+}
+
+.product-quantity-controls a {
+	display: inline-block;
+	background-color: #c7c7c7;
+	text-decoration: none;
+	padding: 0.2em;
+}
+
+.product-quantity-controls input {
+	width: 30px;
+	border: none;
+	text-align: center;
+	background-color: #e6e6e6;
+	padding: 0.2em 0.1em 0.1em 0.1em;
+}
