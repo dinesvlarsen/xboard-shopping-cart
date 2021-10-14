@@ -1,0 +1,71 @@
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Shop</title>
+		<link rel="icon" href="../assets/fav-icon.svg" />
+		<link rel="stylesheet" href="../css/reset.css" />
+		<link rel="stylesheet" href="../css/variables.css" />
+		<link rel="stylesheet" href="../css/style.css" />
+	</head>
+	<body>
+		<header>
+			<div class="header-container">
+				<div>
+					<img src="../assets/xboard-logo.svg" alt="xBoard logo" />
+				</div>
+				<nav>
+					<ul>
+						<li><a href="#home">Home</a></li>
+						<li><a href="#about">About</a></li>
+						<li><a href="#shop">Shop</a></li>
+						<li class="shopping-cart">
+							<img
+								src="../assets/nav-icon/shopping-cart.svg"
+								alt="Shopping cart"
+							/>
+						</li>
+						<div class="shopping-cart-items-count hide">1</div>
+					</ul>
+				</nav>
+			</div>
+		</header>
+
+		<main>
+			<div class="product-list-item">
+				<figure>
+					<img
+						src="../assets/shop-item-images/gateron-black-ink-v2-linear.png"
+						alt="image of a gateron black ink v2 linear switch"
+					/>
+				</figure>
+
+				<h2>Gateron Black Ink V2 (Linear)</h2>
+
+				<div class="price-tag">
+					<span>$1.20</span>
+				</div>
+
+				<div class="product-controls-container">
+					<button aria-label="Add item to cart" class="add-to-cart">Add</button>
+					<div class="product-quantity-controls">
+						<a option="dec" aria-label="Decrease quantity" href="#">-</a>
+						<input
+							value="1"
+							type="tel"
+							id="product-quantity"
+							name="product-quantity"
+							maxlength="3"
+							aria-label="Number of Products"
+						/>
+						<a option="inc" aria-label="Increase quantity" href="#">+</a>
+					</div>
+				</div>
+			</div>
+		</main>
+
+		<section></section>
+		<script src="../js/app.js"></script>
+	</body>
+</html>
