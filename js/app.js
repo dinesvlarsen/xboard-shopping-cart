@@ -1,12 +1,3 @@
-
-
-const main = document.querySelector('main');
-const shoppingCart = document.querySelector('.shopping-cart');
-
-makeCartOverlay();
-const cartOverlay = document.querySelector('.cart-overlay');
-
-
 const products = [
 	{
 		name: 'Gateron Black Ink V2',
@@ -81,6 +72,18 @@ const products = [
 		inCart: false,
 	},
 ];
+
+const main = document.querySelector('main');
+const shoppingCart = document.querySelector('.shopping-cart');
+
+makeCartOverlay();
+const cartOverlay = document.querySelector('.cart-overlay');
+
+main.addEventListener('click', addToCart);
+shoppingCart.addEventListener('click', toggleOverlay);
+
+shoppingCart.addEventListener('click', createCartItemsOnClick)
+cartOverlay.addEventListener('click', removeItemFromCart);
 
 function makeProductItems(product) {
 	const productListItem = document.createElement('div');
@@ -215,7 +218,7 @@ function createCartCounter(items) {
 
 }
 
-main.addEventListener('click', addToCart);
+
 
 products.forEach((product) => makeProductItems(product));
 
@@ -236,6 +239,7 @@ function makeCartOverlay(products){
 	const closeCartImg = document.createElement('img');
 	closeCartImg.setAttribute('src', '../assets/cart-overlay/close-icon.svg')
 	closeCartImg.setAttribute('alt', 'close cart');
+	closeCartImg.setAttribute('id', 'close-cart')
 	closeCart.children[0].appendChild(closeCartImg);
 
 	const cartHeaderContainer = document.createElement('div');
@@ -272,7 +276,7 @@ function makeCartOverlay(products){
 		<p>Total to pay: <span id="total-of-cart">$0</span></p>
 	</div>
 	<div>
-		<button>Continue Shopping</button>
+		<button id="continue-shopping">Continue Shopping</button>
 		<button>Check Out</button>
 	</div>
 	`
@@ -373,9 +377,7 @@ function toggleOverlay(event) {
 	cartOverlayThing.classList.toggle('hide')
 }
 
-shoppingCart.addEventListener('click', toggleOverlay);
 
-shoppingCart.addEventListener('click', createCartItemsOnClick)
 
 // Calculate total
 function productsInCartFilter(products){
@@ -423,7 +425,7 @@ function formatPrice(price) {
 	return startOfPrice + endOfPrice;
  }
 
- cartOverlay.addEventListener('click', removeItemFromCart);
+ 
 function removeItemFromCart(event) {
 	const removeItemClicked = event.target.classList.contains('remove-item-from-cart')
 
@@ -454,3 +456,18 @@ function removeItemFromCart(event) {
 	}
 }
 
+cartOverlay.addEventListener('click', event => {
+	if(event.target.id === 'close-cart'){
+		closeCart();
+	}
+})
+cartOverlay.addEventListener('click', (event) => {
+	if(event.target.id === 'continue-shopping'){
+		closeCart();
+	}
+})
+
+function closeCart() {
+		cartOverlay.classList.add('hide')
+		resetCartProducts();
+}
