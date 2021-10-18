@@ -213,9 +213,7 @@ function createCartCounter(items) {
 	const cartCounter = document.createElement('div');
 	cartCounter.classList.add('shopping-cart-items-count');
 	cartCounter.innerText = cartCount;
-	
-	document.querySelector('.shopping-cart').insertAdjacentElement('beforeend', cartCounter)
-
+	document.querySelector('.shopping-cart-items-count').children[0].innerText = cartCount;
 }
 
 
