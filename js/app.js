@@ -200,7 +200,6 @@ function cartFunctionality(products){
 	// 		return true
 	// 	}
 	// })
-	console.log(document.querySelector('.shopping-cart-items-count'));
 	createCartCounter(productsInCartFilter(products))
 	document.querySelector('.shopping-cart-items-count').classList.remove('hide')
 }
