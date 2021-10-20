@@ -1,3 +1,4 @@
+'use strict'
 const products = [
 	{
 		name: 'Gateron Black Ink V2',
@@ -73,17 +74,35 @@ const products = [
 	},
 ];
 
-const main = document.querySelector('main');
+const main = document.querySelector('main')
+const mainShop = document.querySelector('#shop');
 const shoppingCart = document.querySelector('.shopping-cart');
 
 makeCartOverlay();
 const cartOverlay = document.querySelector('.cart-overlay');
 
-main.addEventListener('click', addToCart);
+mainShop.addEventListener('click', addToCart);
 shoppingCart.addEventListener('click', toggleOverlay);
 
 shoppingCart.addEventListener('click', createCartItemsOnClick)
 cartOverlay.addEventListener('click', removeItemFromCart);
+
+cartOverlay.addEventListener('click', event => {
+	if (event.target.id === 'close-cart') {
+		closeCart();
+	}
+})
+
+cartOverlay.addEventListener('click', (event) => {
+	if (event.target.id === 'continue-shopping') {
+		closeCart();
+	}
+})
+
+function closeCart() {
+	cartOverlay.classList.add('hide')
+	resetCartProducts();
+}
 
 function makeProductItems(product) {
 	const productListItem = document.createElement('div');
@@ -119,12 +138,14 @@ function makeProductItems(product) {
 	productQuantityControls.classList.add('product-quantity-controls');
 
 	const decreaseQuantity = document.createElement('a');
+	decreaseQuantity.classList.add('disabled')
 	decreaseQuantity.setAttribute('option', 'dec');
 	decreaseQuantity.setAttribute('aria-label', 'Decrease quantity');
 	decreaseQuantity.setAttribute('href', '#');
 	decreaseQuantity.innerText = '-';
 
 	const quantityInput = document.createElement('input');
+	quantityInput.classList.add('disabled')
 	quantityInput.setAttribute('value', '1');
 	quantityInput.setAttribute('type', 'tel');
 	quantityInput.setAttribute('id', 'product-quantity');
@@ -133,6 +154,7 @@ function makeProductItems(product) {
 	quantityInput.setAttribute('aria-label', 'Number of Products');
 
 	const increaseQuantity = document.createElement('a');
+	increaseQuantity.classList.add('disabled')
 	increaseQuantity.setAttribute('option', 'inc');
 	increaseQuantity.setAttribute('aria-label', 'Increase quantity');
 	increaseQuantity.setAttribute('href', '#');
@@ -153,23 +175,20 @@ function makeProductItems(product) {
 		productControlsContainer
 	);
 
-	main.appendChild(productListItem);
+	mainShop.appendChild(productListItem);
 }
 
 //CART ICON
 
 function addToCart(event) {
 	if (event.target.classList.contains('add-to-cart') || event.target.classList.contains('remove-item-from-cart')) {
-		const title =
-			event.target.parentElement.parentElement.childNodes[1].innerText;
-			
-			if(title === '0') {
-				document.querySelector('.shopping-cart-items-count').classList.add('hide')
-			}
-		const trimmedTitle = trimTitle(title);
+		const title = event.target.parentElement.parentElement.childNodes[1].innerText;
+		if (title === '0') {
+			document.querySelector('.shopping-cart-items-count').classList.add('hide')
+		}
 
 		products.forEach((product) => {
-			if (product.name === trimmedTitle) {
+			if (product.name === trimTitle(title)) {
 				quantityCheck(product)
 			}
 		});
@@ -183,26 +202,15 @@ function trimTitle(string) {
 	return title.trim();
 }
 
-function quantityCheck(product){
-	if(product.inCart){
+function quantityCheck(product) {
+	if (product.inCart) {
 		product.quantity++
 	} else {
 		product.inCart = true;
 	}
 }
 
-function cartFunctionality(products){
-	// const items = products.filter((product) => {
-	// 	if(product.inCart){
-	// 		return product;
-	// 	}
-	// })
-
-	// items.every(product => {
-	// 	if(product.inCart){
-	// 		return true
-	// 	}
-	// })
+function cartFunctionality(products) {
 	createCartCounter(productsInCartFilter(products))
 	document.querySelector('.shopping-cart-items-count').classList.remove('hide')
 }
@@ -225,7 +233,7 @@ products.forEach((product) => makeProductItems(product));
 // CART OVERLAY
 
 
-function makeCartOverlay(products){
+function makeCartOverlay(products) {
 	//CART OVERLAY HEADER
 	let cartOverlay = document.createElement('section');
 	cartOverlay.classList.add('cart-overlay');
@@ -249,7 +257,7 @@ function makeCartOverlay(products){
 	const cartHeaderDetailsContainer = document.createElement('div');
 	cartHeaderDetailsContainer.classList.add('cart-header-details-container');
 
-	for(let index = 0; index < 3; index++) {
+	for (let index = 0; index < 3; index++) {
 		cartHeaderDetailsContainer.appendChild(document.createElement('span'));
 	}
 
@@ -281,24 +289,24 @@ function makeCartOverlay(products){
 
 	cartOverlay.appendChild(cartOverlayFooter);
 	cartOverlay.classList.add('hide')
-	cartOverlayThing = document.querySelector('.cart-overlay')
+
 
 	const productsContainer = document.createElement('div');
 	productsContainer.classList.add('products-container');
-	
+
 	cartHeaderContainer.insertAdjacentElement("afterend", productsContainer)
 }
 
 
-function createCartItems(products){
-	if(productsInCartFilter(products).length === 0) {
+function createCartItems(products) {
+	if (productsInCartFilter(products).length === 0) {
 		const productsContainer = document.querySelector('.products-container')
 		const emptyCartMessage = document.createElement('h2');
 		emptyCartMessage.innerText = 'Your cart is empty! :(';
 
 		productsContainer.appendChild(emptyCartMessage);
 		document.querySelector('#total-of-cart').innerText = `$${formatPrice(calculateTotalOfCart(products))}`;
-		
+
 	}
 	const productsContainer = document.querySelector('.products-container');
 	const items = productsInCartFilter(products);
@@ -325,8 +333,9 @@ function createCartItems(products){
 						<p>$${item.price}</p>
 
 						<div class="product-quantity-controls">
-							<a option="dec" aria-label="Decrease quantity" href="#">-</a>
+							<a class="disabled" option="dec" aria-label="Decrease quantity" href="#">-</a>
 							<input
+								class="disabled" 
 								value="${item.quantity}"
 								type="tel"
 								id="product-quantity"
@@ -334,7 +343,7 @@ function createCartItems(products){
 								maxlength="3"
 								aria-label="Number of Products"
 							/>
-							<a option="inc" aria-label="Increase quantity" href="#">+</a>
+							<a class="disabled" option="inc" aria-label="Increase quantity" href="#">+</a>
 						</div>
 
 						<p class="shopping-cart-total-price">$${calculateTotalOneItem(item)}</p>
@@ -351,57 +360,47 @@ function createCartItems(products){
 		`
 
 		document.querySelector('#total-of-cart').innerText = `$${formatPrice(calculateTotalOfCart(products))}`;
-		
-		productsContainer.appendChild(productCartItemContainer)
+
+		productsContainer.appendChild(productCartItemContainer);
 	})
 }
 
 
-function createCartItemsOnClick(event){
-	
+function createCartItemsOnClick(event) {
 	event.target.classList.toggle('active');
-
-
-	if(event.target.classList.contains('active')){
+	if (event.target.classList.contains('active')) {
 		resetCartProducts();
 	}
 	createCartItems(products);
 }
 
-
-
 function toggleOverlay(event) {
-	
-	cartOverlayThing.classList.toggle('hide')
+	const cartOverlayThing = document.querySelector('.cart-overlay');
+	cartOverlayThing.classList.toggle('hide');
 }
 
-
-
 // Calculate total
-function productsInCartFilter(products){
-	if(!products) return;
+function productsInCartFilter(products) {
+	if (!products) return;
 	const items = products.filter((product) => {
-		if(product.inCart){
+		if (product.inCart) {
 			return product;
 		}
 	})
-
-	return items
+	return items;
 }
 
-function calculateTotalOfCart(products){
-	if(!products) return;
+function calculateTotalOfCart(products) {
+	if (!products) return;
 	const items = productsInCartFilter(products)
 	return items.reduce((previousValue, currentValue) => {
 		let total = currentValue.price * currentValue.quantity;
-
 		previousValue += total;
-		
 		return Math.round(previousValue * 10) / 10;
 	}, 0)
 }
 
-function calculateTotalOneItem(product){
+function calculateTotalOneItem(product) {
 	const total = product.price * product.quantity;
 	return total.toFixed(2);
 }
@@ -412,26 +411,24 @@ function resetCartProducts() {
 }
 
 function formatPrice(price) {
-	if(String(price).length === 1){
+	if (String(price).length === 1) {
 		price += ".0";
 	}
-
 	let priceString = String(price);
 	const endOfPrice = priceString.slice(priceString.indexOf('.') + 1).padEnd(2, 0);
 	const startOfPrice = priceString.slice(0, priceString.indexOf('.') + 1).padStart(3, 0);
-	
 	return startOfPrice + endOfPrice;
- }
+}
 
- 
+
 function removeItemFromCart(event) {
 	const removeItemClicked = event.target.classList.contains('remove-item-from-cart')
 
-	if(removeItemClicked){
+	if (removeItemClicked) {
 		const title = event.target.closest('div').parentElement.childNodes[1].childNodes[3].childNodes[1].innerText;
 		const trimmedTitle = trimTitle(title)
 		products.forEach(product => {
-			if(product.name === trimmedTitle) {
+			if (product.name === trimmedTitle) {
 				product.inCart = false;
 				product.quantity = 1;
 			}
@@ -439,11 +436,11 @@ function removeItemFromCart(event) {
 
 		event.target.closest('.product-cart-item-container').remove();
 
-		if(productsInCartFilter(products).length === 0) {
+		if (productsInCartFilter(products).length === 0) {
 			const productsContainer = document.querySelector('.products-container')
 			const emptyCartMessage = document.createElement('h2');
 			emptyCartMessage.innerText = 'Your cart is empty! :(';
-	
+
 			productsContainer.appendChild(emptyCartMessage);
 			document.querySelector('#total-of-cart').innerText = `$${formatPrice(calculateTotalOfCart(products))}`;
 		}
@@ -454,18 +451,5 @@ function removeItemFromCart(event) {
 	}
 }
 
-cartOverlay.addEventListener('click', event => {
-	if(event.target.id === 'close-cart'){
-		closeCart();
-	}
-})
-cartOverlay.addEventListener('click', (event) => {
-	if(event.target.id === 'continue-shopping'){
-		closeCart();
-	}
-})
 
-function closeCart() {
-		cartOverlay.classList.add('hide')
-		resetCartProducts();
-}
+
