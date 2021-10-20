@@ -279,7 +279,7 @@ function makeCartOverlay(products) {
 
 	cartOverlayFooter.innerHTML = `
 	<div>
-		<p>Total to pay: <span id="total-of-cart">$0</span></p>
+		<p>Total: <span id="total-of-cart">$0</span></p>
 	</div>
 	<div>
 		<button id="continue-shopping">Continue Shopping</button>

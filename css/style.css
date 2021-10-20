@@ -246,7 +246,8 @@ main {
 
 .cart-overlay-footer p span {
 	font-weight: bold;
-	margin-right: 9.3rem;
+	margin-right: 7rem;
+	margin-left: 1rem;
 }
 
 .cart-overlay-footer div:last-child {
